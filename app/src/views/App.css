@@ -1,0 +1,13 @@
+.Navigator-block {
+  float: left;
+  width: 120px;
+  height: 31px;
+  color: aliceblue;
+  user-select: none;
+}
+
+.Notfound {
+  text-align: left;
+  margin-top: 1vh;
+  font-size: large;
+}

@@ -3,8 +3,25 @@ var router = express.Router();
 var book_controller = require('../controller/book_controller');
 
 
-router.get('/list', (req, res, next) => {
-    book_controller.select(req).then(r => (res.send(r)));
+router.get('/list', (req, res) => {
+    console.log(req.query);
+    book_controller.select(req.query).then(r => { res.send(r) });
+});
+
+router.post('/select', (req, res) => {
+    book_controller.select(req.body).then(r => { res.send(r) });
+});
+
+router.post('/add', (req, res) => {
+    book_controller.insert(req.body).then(r => { res.send(r) });
+});
+
+router.post('/del', (req, res) => {
+    book_controller.delete(req.body).then(r => { res.send(r) });
+});
+
+router.post('/upd', (req, res) => {
+    book_controller.update(req.body).then(r => { res.send(r) });
 });
 
 module.exports = router;

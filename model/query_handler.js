@@ -12,16 +12,16 @@ class query_handler {
         let str = `SELECT * FROM ${table} `;
 
         // 拼接WHERE部分
-        if (param.where) {
+        if (param.where && param.where.length) {
             str += " WHERE ";
             str += param.where.join(" AND ");
         }
 
         // 拼接ORDER BY部分
-        if (param.orderby) {
+        if (param.orderby && param.orderby.length) {
             str += " ORDER BY ";
             let ord_obj = new Array();
-            for (let ord in param.orderby) {
+            for (let ord of param.orderby) {
                 ord_obj.push(ord.field + ' ' + ord.order);
             }
             str += ord_obj.join(',');
@@ -45,16 +45,14 @@ class query_handler {
         let str = `INSERT INTO ${table} `;
 
         // 拼接kv
-        if (param.kv) {
+        if (param.kv && param.kv.length) {
             let keys = new Array();
             let values = new Array();
-            for (let key in param.kv) {
+            for (let key of param.kv) {
                 keys.push(key);
                 values.push(param[key]);
             }
-            keys = '(' + keys.join(',') + ')';
-            values = '(' + values.join(',') + ')';
-            str += keys + ' VALUES ' + values;
+            str += `(${keys.join(',')}) VALUES (${values.join(',')})`;
         }
 
         try {
@@ -75,16 +73,16 @@ class query_handler {
         let str = `UPDATE ${table} SET `;
 
         // 拼接kv
-        if (param.kv) {
+        if (param.kv && param.kv.length) {
             let kv = new Array();
-            for (let key in param.kv) {
+            for (let key of param.kv) {
                 kv.push(key + '=' + param.kv[key]);
             }
             str += kv.join(',');
         }
 
         // 拼接WHERE部分
-        if (param.where) {
+        if (param.where && param.where.length) {
             str += " WHERE ";
             str += param.where.join(" AND ");
         }
@@ -105,7 +103,7 @@ class query_handler {
         let str = `DELETE FROM ${table} `;
 
         // 拼接WHERE部分
-        if (param.where) {
+        if (param.where && param.where.length) {
             str += " WHERE ";
             str += param.where.join(" AND ");
         }

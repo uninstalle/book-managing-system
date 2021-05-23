@@ -6,16 +6,25 @@ var query_handler = require('../model/query_handler');
 class book_controller {
 
 
+    // received param:
+    // 
+    // target param:
     // param.where: WHERE <condition> collection, condition 'field >/</= literal'
     // param.orderby: ORDER BY object collection, object { field, order = ASC/DESC }
     // param.kv: field-value pair collection
 
     static async select(param) {
-        
-        // converting param
 
-        
-        let r = await query_handler.select('book', param);
+        // converting param
+        let p = {
+            where: new Array(),
+            orderby: new Array()
+        };
+
+
+        let r = await query_handler.select('book', p);
+
+        // converting result
         let result = query_handler.formatJson(r);
         return result;
     }
