@@ -54,6 +54,10 @@ class sql_handler {
     static changeUserToGuest() {
         this.changeUser(guest_username, guest_password);
     }
+
+    static checkAdmin(username, password) {
+        return username == admin_username && password == admin_password;
+    }
 }
 
 module.exports = sql_handler;

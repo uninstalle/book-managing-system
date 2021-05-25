@@ -4,8 +4,7 @@ var record_controller = require('../controller/record_controller');
 
 
 router.get('/list', (req, res) => {
-    console.log(req.query);
-    record_controller.select(req.query).then(r => { res.send(r) });
+    record_controller.select({}).then(r => { res.send(r) });
 });
 
 router.post('/select', (req, res) => {

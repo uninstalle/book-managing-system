@@ -14,35 +14,21 @@ class book_controller {
     // param.kv: field-value pair collection
 
     static async select(param) {
-
-        // converting param
-        let p = {
-            where: new Array(),
-            orderby: new Array()
-        };
-
-
-        let r = await query_handler.select('book', p);
-
-        // converting result
-        let result = query_handler.formatJson(r);
-        return result;
+        let r = await query_handler.select('book', param);
+        return r;
     }
 
     static async insert(param) {
         let r = await query_handler.insert('book', param);
-        let result = query_handler.formatJson(r);
-        return result;
+        return r;
     }
     static async update(param) {
         let r = await query_handler.update('book', param);
-        let result = query_handler.formatJson(r);
-        return result;
+        return r;
     }
     static async delete(param) {
         let r = await query_handler.delete('book', param);
-        let result = query_handler.formatJson(r);
-        return result;
+        return r;
     }
 };
 

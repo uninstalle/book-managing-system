@@ -4,8 +4,7 @@ var libcard_controller = require('../controller/libcard_controller');
 
 
 router.get('/list', (req, res) => {
-    console.log(req.query);
-    libcard_controller.select(req.query).then(r => { res.send(r) });
+    libcard_controller.select({}).then(r => { res.send(r) });
 });
 
 router.post('/select', (req, res) => {

@@ -4,8 +4,7 @@ var user_controller = require('../controller/user_controller');
 
 
 router.get('/list', (req, res) => {
-    console.log(req.query);
-    user_controller.select(req.query).then(r => { res.send(r) });
+    user_controller.select({}).then(r => { res.send(r) });
 });
 
 router.post('/select', (req, res) => {

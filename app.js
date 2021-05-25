@@ -7,9 +7,12 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var bookRouter = require('./routes/book');
-//var libcardRouter = require('./routes/libcard');
-//var recordRouter = require('./routes/record');
-//var userRouter = require('./routes/user');
+var libcardRouter = require('./routes/libcard');
+var recordRouter = require('./routes/record');
+var userRouter = require('./routes/user');
+var loginRouter = require('./routes/login');
+var logoutRouter = require('./routes/logout');
+var authRouter = require('./routes/auth');
 
 var app = express();
 
@@ -24,17 +27,27 @@ app.use(session({
   secret: 'TEMP_SECRET',
   resave: true,
   saveUninitialized: true,
-  cookie: { maxAge: 1000 * 60 * 5 }
+  cookie: { maxAge: 1000 * 60 * 30 }
 }));
 
-app.use(cookieParser());
+app.use(cookieParser('TEMP_SECRET'));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(function (req, res, next) {
+  res.header('Access-Control-Allow-Origin', 'http://127.0.0.1:3001');
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
+  res.header('Access-Control-Allow-Headers', 'x-requested-with,content-type');
+  next();
+});
 
 app.use('/', indexRouter);
 app.use('/book', bookRouter);
 app.use('/libcard', libcardRouter);
 app.use('/record', recordRouter);
 app.use('/user', userRouter);
+app.use('/login', loginRouter);
+app.use('/logout', logoutRouter);
+app.use('/check', authRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

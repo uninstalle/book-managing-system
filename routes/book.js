@@ -4,8 +4,7 @@ var book_controller = require('../controller/book_controller');
 
 
 router.get('/list', (req, res) => {
-    console.log(req.query);
-    book_controller.select(req.query).then(r => { res.send(r) });
+    book_controller.select({}).then(r => { res.send(r) });
 });
 
 router.post('/select', (req, res) => {

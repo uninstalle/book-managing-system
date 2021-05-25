@@ -5,6 +5,7 @@ import Login from './login/Login';
 import Logout from './logout/Logout';
 import Manage from './manage/Manage';
 import Notfound from './Notfound';
+import CheckAuthRequestSender from '../service/auth';
 import 'antd/dist/antd.css';
 import './App.css';
 import { Layout, Menu } from 'antd';
@@ -12,10 +13,11 @@ import { Layout, Menu } from 'antd';
 const { Header, Content } = Layout;
 
 class App extends React.Component {
+
     render() {
         return (
             <Layout className="layout">
-                <Navigator isLogin={isLoggedin} />
+                <Navigator />
                 <BrowserRouter>
                     <Mainpage />
                 </BrowserRouter>
@@ -24,11 +26,31 @@ class App extends React.Component {
     }
 }
 
-var isLoggedin = false;
-
 class Navigator extends React.Component {
-    render(props) {
-        if (this.props.isLogin) {
+
+    constructor(props) {
+        super(props);
+
+        this.state = { isLoggedin: false };
+    }
+
+    UNSAFE_componentWillMount() {
+        CheckAuthRequestSender.send({}).then((res) => {
+            if (res.data.ret_code === 0) {
+                this.setState({ isLoggedin: true });
+            }
+            else {
+                this.setState({ isLoggedin: false });
+            }
+        }).catch(
+            () => {
+                this.setState({ isLoggedin: false });
+            }
+        );
+    }
+
+    render() {
+        if (this.state.isLoggedin) {
             return ( // logged in
                 <Header>
                     <div className="Navigator-block">Welcome, admin.</div>
@@ -59,6 +81,7 @@ class Navigator extends React.Component {
 
 
 class Mainpage extends React.Component {
+
     render() {
         return (
             <Content style={{ padding: '0 50px' }}>

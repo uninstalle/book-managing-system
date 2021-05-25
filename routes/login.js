@@ -1,12 +1,19 @@
 var express = require('express');
-var crypto = require('crypto');
+var sql_handler = require('../model/db_connect');
 var router = express.Router();
 
 router.post('/', (req, res) => {
-    let username = req.username;
-    let password = req.password;
-    let p = crypto.createHash('md5').update(password).digest('hex');
-    
+    let username = req.body.username;
+    let password = req.body.password;
+    let checkRes = sql_handler.checkAdmin(username, password);
+    if (checkRes) {
+        sql_handler.changeUserToAdmin();
+        req.session.username = req.body.username;
+        res.json({ ret_code: 0, ret_msg: 'login success' });
+    }
+    else {
+        res.json({ ret_code: 1, ret_msg: 'login failed' });
+    }
 });
 
 module.exports = router;
