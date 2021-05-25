@@ -1,7 +1,7 @@
 import React from 'react';
 import 'antd/dist/antd.css';
 import { Button } from 'antd';
-import { AddBookModal } from './ModalForm';
+import AddModal from './ModalForm';
 
 
 class AddButton extends React.Component {
@@ -32,7 +32,8 @@ class AddButton extends React.Component {
                     Add New Item
                     </Button>
 
-                <AddBookModal
+                <AddModal
+                    val={this.props.val}
                     visible={this.state.isModalVisible}
                     onOk={this.add}
                     onCancel={() => {

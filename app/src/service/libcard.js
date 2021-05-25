@@ -13,26 +13,26 @@ class LibcardRequestSender {
 
     static async list(param) {
         let r = await axios.get(ServerLibcardURL + Request.ListRequest, param);
-        return r;
+        return r.data;
     }
 
     static async select(param) {
         let r = await axios.post(ServerLibcardURL + Request.SelectRequest, param);
-        return r;
+        return r.data;
     }
 
     static async add(param) {
         let r = await axios.post(ServerLibcardURL + Request.AddRequest, param);
-        return r;
+        return r.data;
     }
     static async update(param) {
         let r = await axios.post(ServerLibcardURL + Request.UpdateRequest, param);
-        return r;
+        return r.data;
     }
     static async delete(param) {
         let r = await axios.post(ServerLibcardURL + Request.DeleteRequest, param);
-        return r;
+        return r.data;
     }
 };
 
-module.exports = LibcardRequestSender;
+export default LibcardRequestSender;

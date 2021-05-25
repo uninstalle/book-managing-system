@@ -1,8 +1,8 @@
-import BookRequestSender from '../service/book';
+import UserRequestSender from '../service/user';
 
-class BookController {
+class UserController {
     static async list() {
-        let r = await BookRequestSender.list({});
+        let r = await UserRequestSender.list({});
         if (r.errno) {
             alert(r.errno + ' ' + r.sqlMessage);
             return [];
@@ -15,7 +15,7 @@ class BookController {
         let w = property + '=' + value;
         wc['where'].push(w);
 
-        let r = await BookRequestSender.select(wc);
+        let r = await UserRequestSender.select(wc);
 
         if (r.errno) {
             console.log(r.errno + ' ' + r.sqlMessage);
@@ -36,7 +36,7 @@ class BookController {
             kvc['kv'].push(kv);
         }
 
-        let r = await BookRequestSender.add(kvc);
+        let r = await UserRequestSender.add(kvc);
         console.log(r);
         if (r.errno) {
             console.log(r.errno + ' ' + r.sqlMessage);
@@ -47,10 +47,10 @@ class BookController {
 
     static async update(data) {
 
-        let kvc = { where: ['book_id=' + data['book_id']], kv: [] };
+        let kvc = { where: ['user_id=' + data['user_id']], kv: [] };
 
         for (let p in data) {
-            if (p === 'book_id')
+            if (p === 'user_id')
                 continue;
             if (!data[p])
                 data[p] = 'NULL';
@@ -62,7 +62,7 @@ class BookController {
 
         console.log(kvc);
 
-        let r = await BookRequestSender.update(kvc);
+        let r = await UserRequestSender.update(kvc);
         console.log(r);
         if (r.errno) {
             console.log(r.errno + ' ' + r.sqlMessage);
@@ -71,12 +71,12 @@ class BookController {
         return "Update Success!";
     }
 
-    static async delete(book_id) {
+    static async delete(user_id) {
         let wc = { where: [] };
-        let w = 'book_id=' + book_id;
+        let w = 'user_id=' + user_id;
         wc['where'].push(w);
 
-        let r = await BookRequestSender.delete(wc);
+        let r = await UserRequestSender.delete(wc);
         console.log(r);
         if (r.errno) {
             alert(r.errno + ' ' + r.sqlMessage);
@@ -86,4 +86,4 @@ class BookController {
     }
 }
 
-export default BookController;
+export default UserController;

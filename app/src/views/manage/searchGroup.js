@@ -55,7 +55,7 @@ class SelectGroup extends React.Component {
 class BookSelectGroup extends React.Component {
     render(props) {
         return (
-            <Select onChange={this.props.onSelect}>
+            <Select style={{ width: 120 }} onChange={this.props.onSelect}>
                 <Option value="book_id">Book ID</Option>
                 <Option value="title">Title</Option>
                 <Option value="author">Author</Option>
@@ -74,7 +74,7 @@ class BookSelectGroup extends React.Component {
 class LibcardSelectGroup extends React.Component {
     render(props) {
         return (
-            <Select onChange={this.props.onSelect}>
+            <Select style={{ width: 120 }} onChange={this.props.onSelect}>
                 <Option value="card_id">Card ID</Option>
                 <Option value="user_id">User ID</Option>
                 <Option value="register_date">Register Date</Option>
@@ -86,7 +86,7 @@ class LibcardSelectGroup extends React.Component {
 class RecordSelectGroup extends React.Component {
     render(props) {
         return (
-            <Select onChange={this.props.onSelect}>
+            <Select style={{ width: 120 }} onChange={this.props.onSelect}>
                 <Option value="record_id">Record ID</Option>
                 <Option value="book_id">Book ID</Option>
                 <Option value="card_id">Card ID</Option>
@@ -100,7 +100,7 @@ class RecordSelectGroup extends React.Component {
 class UserSelectGroup extends React.Component {
     render(props) {
         return (
-            <Select onChange={this.props.onSelect}>
+            <Select style={{ width: 120 }} onChange={this.props.onSelect}>
                 <Option value="user_id">User ID</Option>
                 <Option value="name">Name</Option>
                 <Option value="address">Address</Option>

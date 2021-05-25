@@ -13,26 +13,26 @@ class RecordRequestSender {
 
     static async list(param) {
         let r = await axios.get(ServerRecordURL + Request.ListRequest, param);
-        return r;
+        return r.data;
     }
 
     static async select(param) {
         let r = await axios.post(ServerRecordURL + Request.SelectRequest, param);
-        return r;
+        return r.data;
     }
 
     static async add(param) {
         let r = await axios.post(ServerRecordURL + Request.AddRequest, param);
-        return r;
+        return r.data;
     }
     static async update(param) {
         let r = await axios.post(ServerRecordURL + Request.UpdateRequest, param);
-        return r;
+        return r.data;
     }
     static async delete(param) {
         let r = await axios.post(ServerRecordURL + Request.DeleteRequest, param);
-        return r;
+        return r.data;
     }
 };
 
-module.exports = RecordRequestSender;
+export default RecordRequestSender;

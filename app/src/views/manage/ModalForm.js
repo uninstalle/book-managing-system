@@ -2,7 +2,7 @@ import React from 'react';
 import 'antd/dist/antd.css';
 import { Form, Input, Modal } from 'antd';
 
-class AddBookModal extends React.Component {
+class AddModal extends React.Component {
 
     render(props) {
         return (
@@ -14,7 +14,8 @@ class AddBookModal extends React.Component {
                 }}
                 onCancel={this.props.onCancel}
             >
-                <AddBookForm
+                <AddForm
+                    val={this.props.val}
                     onRef={(ref) => {
                         this.child = ref;
                     }}
@@ -26,6 +27,31 @@ class AddBookModal extends React.Component {
                 />
             </Modal>
         );
+    }
+}
+
+class AddForm extends React.Component {
+    render(props) {
+        if (!this.props.val) return null;
+        switch (this.props.val) {
+            case 1: return (<AddBookForm onRef={this.props.onRef}
+                onFinish={this.props.onFinish}
+                isUpdate={this.props.isUpdate}
+                initVal={this.props.initVal} />);
+            case 2: return (<AddLibcardModal onRef={this.props.onRef}
+                onFinish={this.props.onFinish}
+                isUpdate={this.props.isUpdate}
+                initVal={this.props.initVal} />);
+            case 3: return (<AddRecordModal onRef={this.props.onRef}
+                onFinish={this.props.onFinish}
+                isUpdate={this.props.isUpdate}
+                initVal={this.props.initVal} />);
+            case 4: return (<AddUserModal onRef={this.props.onRef}
+                onFinish={this.props.onFinish}
+                isUpdate={this.props.isUpdate}
+                initVal={this.props.initVal} />);
+            default: return null;
+        }
     }
 }
 
@@ -203,4 +229,233 @@ class AddBookForm extends React.Component {
 }
 
 
-export { AddBookModal };
+class AddLibcardModal extends React.Component {
+
+    formRef = React.createRef();
+
+    submit() {
+        this.formRef.current.submit();
+    }
+
+    componentDidMount() {
+        this.props.onRef(this);
+    }
+
+    render(props) {
+        return (
+            <Form {...formItemLayout} ref={this.formRef} onFinish={this.props.onFinish} initialValues={this.props.initVal}>
+                <Form.Item
+                    label="Card ID"
+                    name="card_id"
+                    rules={[
+                        {
+                            type: 'string',
+                            required: true,
+                            transform: (value) => { if (value) return "" + value },
+                            pattern: /^[0-9]+$/
+                        }
+                    ]}
+                >
+                    <Input disabled={this.props.isUpdate} />
+                </Form.Item>
+
+                <Form.Item
+                    label="User ID"
+                    name="user_id"
+                    rules={[
+                        {
+                            type: 'string',
+                            required: true,
+                            transform: (value) => { if (value) return "" + value },
+                            pattern: /^[0-9]+$/
+                        }
+                    ]}
+                >
+                    <Input />
+                </Form.Item>
+
+                <Form.Item
+                    label="Register date"
+                    name="register_date"
+                    rules={[
+                        {
+                            type: 'date'
+                        }
+                    ]}>
+                    <Input />
+                </Form.Item>
+
+
+            </Form>
+        );
+    }
+}
+
+
+class AddRecordModal extends React.Component {
+
+    formRef = React.createRef();
+
+    submit() {
+        this.formRef.current.submit();
+    }
+
+    componentDidMount() {
+        this.props.onRef(this);
+    }
+
+    render(props) {
+        return (
+            <Form {...formItemLayout} ref={this.formRef} onFinish={this.props.onFinish} initialValues={this.props.initVal}>
+                <Form.Item
+                    label="Record ID"
+                    name="record_id"
+                    rules={[
+                        {
+                            type: 'string',
+                            required: true,
+                            transform: (value) => { if (value) return "" + value },
+                            pattern: /^[0-9]+$/
+                        }
+                    ]}
+                >
+                    <Input disabled={this.props.isUpdate} />
+                </Form.Item>
+
+                <Form.Item
+                    label="Book ID"
+                    name="book_id"
+                    rules={[
+                        {
+                            type: 'string',
+                            required: true,
+                            transform: (value) => { if (value) return "" + value },
+                            pattern: /^[0-9]+$/
+                        }
+                    ]}
+                >
+                    <Input />
+                </Form.Item>
+
+                <Form.Item
+                    label="Card ID"
+                    name="card_id"
+                    rules={[
+                        {
+                            type: 'string',
+                            required: true,
+                            transform: (value) => { if (value) return "" + value },
+                            pattern: /^[0-9]+$/
+                        }
+                    ]}
+                >
+                    <Input />
+                </Form.Item>
+
+                <Form.Item
+                    label="Borrow Date"
+                    name="borrow_date"
+                    rules={[
+                        {
+                            type: 'date',
+                            required: true
+                        }
+                    ]}>
+                    <Input />
+                </Form.Item>
+
+                <Form.Item
+                    label="Return Date"
+                    name="return_date"
+                    rules={[
+                        {
+                            type: 'date'
+                        }
+                    ]}>
+                    <Input />
+                </Form.Item>
+
+
+            </Form>
+        );
+    }
+}
+
+
+
+class AddUserModal extends React.Component {
+
+    formRef = React.createRef();
+
+    submit() {
+        this.formRef.current.submit();
+    }
+
+    componentDidMount() {
+        this.props.onRef(this);
+    }
+
+    render(props) {
+        return (
+            <Form {...formItemLayout} ref={this.formRef} onFinish={this.props.onFinish} initialValues={this.props.initVal}>
+                <Form.Item
+                    label="User ID"
+                    name="user_id"
+                    rules={[
+                        {
+                            type: 'string',
+                            required: true,
+                            transform: (value) => { if (value) return "" + value },
+                            pattern: /^[0-9]+$/
+                        }
+                    ]}
+                >
+                    <Input disabled={this.props.isUpdate} />
+                </Form.Item>
+
+                <Form.Item
+                    label="Name"
+                    name="name"
+                    rules={[
+                        {
+                            type: 'string',
+                            required: true,
+                            max: 20
+                        }
+                    ]}
+                >
+                    <Input />
+                </Form.Item>
+
+                <Form.Item
+                    label="Address"
+                    name="address"
+                    rules={[
+                        {
+                            type: 'string',
+                            max: 100
+                        }
+                    ]}
+                >
+                    <Input />
+                </Form.Item>
+
+                <Form.Item
+                    label="Phone Number"
+                    name="phone_number"
+                    rules={[
+                        {
+                            type: 'string',
+                            max: 20
+                        }
+                    ]}>
+                    <Input />
+                </Form.Item>
+
+            </Form>
+        );
+    }
+}
+
+
+export default AddModal;

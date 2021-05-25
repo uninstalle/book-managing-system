@@ -2,14 +2,17 @@ import React from 'react';
 import 'antd/dist/antd.css';
 import './Manage.css';
 import AuthChecker from '../../controller/authChecker';
+import BookController from '../../controller/bookController';
+import LibcardController from '../../controller/libcardController';
+import RecordController from '../../controller/recordController';
+import UserController from '../../controller/userController';
 import RadioGroup from './radioGroup';
 import AddButton from './addButton';
 import SearchGroup from './searchGroup';
 import MainColumn from './mainColumn';
-import BookController from '../../controller/bookController';
 import { Info } from '../dialog';
 
-var Controller = [null, BookController];
+var Controller = [null, BookController, LibcardController, RecordController, UserController];
 
 
 class Manage extends React.Component {
@@ -60,10 +63,15 @@ class Manage extends React.Component {
   }
 
   onGetSelectRequest(property, value) {
-    value = '\'' + value + '\'';
+    if (value)
+      value = '\'' + value + '\'';
+
     if (property && value)
       Controller[this.state.radioSelect].select(property, value).then(
-        (res) => { this.setState({ data: res }); }
+        (res) => {
+          console.log(res);
+          this.setState({ data: res });
+        }
       ).catch(
         (e) => { console.log(e); }
       );
@@ -72,7 +80,8 @@ class Manage extends React.Component {
 
   onGetAddRequest(value) {
     for (let p in value) {
-      if (value[p]) value[p] = '\'' + value[p] + '\'';
+      if (value[p])
+        value[p] = '\'' + value[p] + '\'';
     }
 
     console.log(value);
@@ -90,9 +99,10 @@ class Manage extends React.Component {
 
   onGetModifyRequest(value) {
     for (let p in value) {
-      if (value[p]) value[p] = '\'' + value[p] + '\'';
+      if (value[p])
+        value[p] = '\'' + value[p] + '\'';
     }
-    
+
     Controller[this.state.radioSelect].update(value).then(
       (res) => {
         Info({ text: res });
@@ -101,7 +111,7 @@ class Manage extends React.Component {
     ).catch(
       (e) => { console.log(e); }
     );
-    
+
 
   }
 
