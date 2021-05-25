@@ -78,7 +78,7 @@ class Navigator extends React.Component {
 
 class Mainpage extends React.Component {
 
-    render(props) {
+    render() {
         return (
             <Content style={{ padding: '0 50px' }}>
                 <Switch>

@@ -1,27 +1,24 @@
 import React from 'react';
 import './Logout.css';
+import { Success, Failed } from '../dialog';
 import LogoutRequestSender from '../../service/logout';
 
 class Logout extends React.Component {
 
-  constructor(props) {
-    super(props);
-  }
-
   componentDidMount() {
     LogoutRequestSender.send({}).then((res) => {
       if (res.data.ret_code === 0) {
-        alert("Logout succeeded.");
+        Success({ text: 'Logout succeeded.' });
         this.props.history.push('/');
       }
       else {
         console.log(res);
-        alert("Logout failed.");
+        Failed({ text: 'Logout failed.' });
       }
     }).catch(
       (res) => {
         console.log(res);
-        alert("Sending logout request failed.")
+        Failed({ text: 'Sending logout request failed.' });
       }
     );
   }

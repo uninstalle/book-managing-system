@@ -2,6 +2,7 @@ import React from 'react';
 import 'antd/dist/antd.css';
 import './Login.css';
 import { Form, Input, Button } from 'antd';
+import { Success, Failed } from '../dialog';
 import LoginRequestSender from '../../service/login';
 
 
@@ -30,19 +31,18 @@ class Login extends React.Component {
 
   onFinish(values) {
     LoginRequestSender.send(values).then((res) => {
-      if (res.data.ret_code === 0)
-      {
-        alert("Login succeeded.");
+      if (res.data.ret_code === 0) {
+        Success({ text: "Login succeeded." });
         this.props.history.push('/');
       }
       else {
         console.log(res);
-        alert("Login failed.");
+        Failed({ text: "Login failed." });
       }
     }).catch(
       (res) => {
         console.log(res);
-        alert("Sending login request failed.")
+        Failed({ text: "Sending login request failed." });
       }
     );
   }

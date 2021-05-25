@@ -7,12 +7,11 @@ class BookController {
     }
 
     static async select(property, value) {
-        let kvc = new Array();
-        let kv = {};
-        kv[property] = value;
-        kvc.push(kv);
+        let wc = { where: [] };
+        let w = property + '=' + value;
+        wc['where'].push(w);
 
-        let r = await BookRequestSender.select(kvc);
+        let r = await BookRequestSender.select(wc);
         return r;
     }
 
@@ -21,7 +20,7 @@ class BookController {
     }
 
     static update(book_id, property, value) {
-        let kvc = new Array();
+        let kvc = [];
         let kv = {};
         kv[property] = value;
         kvc.push(kv);
