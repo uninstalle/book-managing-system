@@ -18,32 +18,57 @@ class BookController {
         let r = await BookRequestSender.select(wc);
 
         if (r.errno) {
-            alert(r.errno + ' ' + r.sqlMessage);
-            return [];
+            console.log(r.errno + ' ' + r.sqlMessage);
+            return r.sqlMessage;
         }
         return r;
     }
 
     static async add(data) {
 
+        let kvc = { kv: [] };
+        for (let p in data) {
+            if (!data[p])
+                data[p] = 'NULL';
+
+            let kv = {};
+            kv[p] = data[p];
+            kvc['kv'].push(kv);
+        }
+
+        let r = await BookRequestSender.add(kvc);
+        console.log(r);
+        if (r.errno) {
+            console.log(r.errno + ' ' + r.sqlMessage);
+            return r.sqlMessage;
+        }
+        return "Add Success!";
     }
 
-    static async update(book_id, property, value) {
-        let kvc = [];
-        let kv = {};
-        kv[property] = value;
-        kvc.push(kv);
+    static async update(data) {
 
-        let r = await BookRequestSender.update({
-            where: "book_id=" + book_id,
-            kv: kvc
-        });
+        let kvc = { where: ['book_id=' + data['book_id']], kv: [] };
 
-        if (r.errno) {
-            alert(r.errno + ' ' + r.sqlMessage);
-            return [];
+        for (let p in data) {
+            if (p === 'book_id')
+                continue;
+            if (!data[p])
+                data[p] = 'NULL';
+
+            let kv = {};
+            kv[p] = data[p];
+            kvc['kv'].push(kv);
         }
-        return r;
+
+        console.log(kvc);
+
+        let r = await BookRequestSender.update(kvc);
+        console.log(r);
+        if (r.errno) {
+            console.log(r.errno + ' ' + r.sqlMessage);
+            return r.sqlMessage;
+        }
+        return "Update Success!";
     }
 
     static async delete(book_id) {
@@ -55,9 +80,9 @@ class BookController {
         console.log(r);
         if (r.errno) {
             alert(r.errno + ' ' + r.sqlMessage);
-            return [];
+            return r.sqlMessage;
         }
-        return JSON.stringify(r);
+        return "Delete Success!";
     }
 }
 

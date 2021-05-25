@@ -1,6 +1,7 @@
 import React from 'react';
 import 'antd/dist/antd.css';
 import { Table, Space, Button } from 'antd';
+import { AddBookModal } from './ModalForm';
 
 const { Column } = Table;
 
@@ -57,10 +58,46 @@ class BookColumn extends React.Component {
 
 class ModifyButton extends React.Component {
 
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            isModalVisible: false
+        };
+
+        this.update = this.update.bind(this);
+    }
+
+    update(value) {
+        this.props.onModify(value);
+        this.setState({ isModalVisible: false });
+    }
+
     render(props) {
-        return <Button type="link" disabled={!this.props.isLoggedin} onClick={(event) => {
-            this.props.onModify(this.props.data);
-        }}>Modify</Button>;
+        return (
+            <div>
+                <Button
+                    type="link"
+                    disabled={!this.props.isLoggedin}
+                    onClick={(event) => {
+                        this.setState({ isModalVisible: true });
+                    }
+                    }>
+                    Modify
+                </Button>
+
+                <AddBookModal
+                    visible={this.state.isModalVisible}
+                    onOk={this.update}
+                    onCancel={() => {
+                        this.setState({ isModalVisible: false });
+                    }}
+                    isUpdate={true}
+                    initVal={this.props.data}
+                />
+            </div>
+        );
     }
 }
 

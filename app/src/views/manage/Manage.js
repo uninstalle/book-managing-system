@@ -9,7 +9,7 @@ import MainColumn from './mainColumn';
 import BookController from '../../controller/bookController';
 import { Info } from '../dialog';
 
-var Controller = [BookController];
+var Controller = [null, BookController];
 
 
 class Manage extends React.Component {
@@ -46,8 +46,9 @@ class Manage extends React.Component {
     this.setState({
       radioSelect: value,
       data: []
+    }, () => {
+      this.refetchData();
     });
-    this.refetchData();
   }
 
   refetchData() {
@@ -69,11 +70,38 @@ class Manage extends React.Component {
     else this.refetchData();
   }
 
-  onGetAddRequest() {
+  onGetAddRequest(value) {
+    for (let p in value) {
+      if (value[p]) value[p] = '\'' + value[p] + '\'';
+    }
 
+    console.log(value);
+
+    Controller[this.state.radioSelect].add(value).then(
+      (res) => {
+        console.log(res);
+        Info({ text: res });
+        this.refetchData();
+      }
+    ).catch(
+      (e) => { console.log(e); }
+    );
   }
 
   onGetModifyRequest(value) {
+    for (let p in value) {
+      if (value[p]) value[p] = '\'' + value[p] + '\'';
+    }
+    
+    Controller[this.state.radioSelect].update(value).then(
+      (res) => {
+        Info({ text: res });
+        this.refetchData();
+      }
+    ).catch(
+      (e) => { console.log(e); }
+    );
+    
 
   }
 

@@ -15,7 +15,8 @@ class AddButton extends React.Component {
         this.add = this.add.bind(this);
     }
 
-    add() {
+    add(value) {
+        this.props.onAdd(value);
         this.setState({ isModalVisible: false });
     }
 
@@ -23,8 +24,21 @@ class AddButton extends React.Component {
         if (!this.props.val || !this.props.isLoggedin) return null;
         return (
             <div>
-                <Button type="primary" onClick={() => { this.setState({ isModalVisible: true }); }}  >Add New Item</Button>
-                <AddBookModal visible={this.state.isModalVisible} onOk={this.add} onCancel={() => { this.setState({ isModalVisible: false }); }} />
+                <Button
+                    type="primary"
+                    onClick={() => {
+                        this.setState({ isModalVisible: true });
+                    }}  >
+                    Add New Item
+                    </Button>
+
+                <AddBookModal
+                    visible={this.state.isModalVisible}
+                    onOk={this.add}
+                    onCancel={() => {
+                        this.setState({ isModalVisible: false });
+                    }}
+                />
             </div>
         );
     }

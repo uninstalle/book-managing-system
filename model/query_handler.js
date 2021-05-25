@@ -20,7 +20,7 @@ class query_handler {
         // 拼接ORDER BY部分
         if (param.orderby && param.orderby.length) {
             str += " ORDER BY ";
-            let ord_obj = new Array();
+            let ord_obj = [];
             for (let ord of param.orderby) {
                 ord_obj.push(ord.field + ' ' + ord.order);
             }
@@ -46,11 +46,11 @@ class query_handler {
 
         // 拼接kv
         if (param.kv && param.kv.length) {
-            let keys = new Array();
-            let values = new Array();
-            for (let key of param.kv) {
-                keys.push(key);
-                values.push(param[key]);
+            let keys = [];
+            let values = [];
+            for (let kv of param.kv) {
+                keys.push(Object.keys(kv)[0]);
+                values.push(Object.values(kv)[0]);
             }
             str += `(${keys.join(',')}) VALUES (${values.join(',')})`;
         }
@@ -74,11 +74,11 @@ class query_handler {
 
         // 拼接kv
         if (param.kv && param.kv.length) {
-            let kv = new Array();
-            for (let key of param.kv) {
-                kv.push(key + '=' + param.kv[key]);
+            let kvc = [];
+            for (let kv of param.kv) {
+                kvc.push(Object.keys(kv)[0] + '=' + Object.values(kv)[0]);
             }
-            str += kv.join(',');
+            str += kvc.join(',');
         }
 
         // 拼接WHERE部分

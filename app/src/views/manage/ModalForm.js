@@ -3,10 +3,27 @@ import 'antd/dist/antd.css';
 import { Form, Input, Modal } from 'antd';
 
 class AddBookModal extends React.Component {
+
     render(props) {
         return (
-            <Modal destroyOnClose={true} visible={this.props.visible} onOk={this.props.onOk} onCancel={this.props.onCancel}>
-                <AddBookForm />
+            <Modal
+                destroyOnClose={true}
+                visible={this.props.visible}
+                onOk={() => {
+                    this.child.submit();
+                }}
+                onCancel={this.props.onCancel}
+            >
+                <AddBookForm
+                    onRef={(ref) => {
+                        this.child = ref;
+                    }}
+                    onFinish={(value) => {
+                        this.props.onOk(value);
+                    }}
+                    isUpdate={this.props.isUpdate}
+                    initVal={this.props.initVal}
+                />
             </Modal>
         );
     }
@@ -32,21 +49,33 @@ const formItemLayout = {
 };
 
 class AddBookForm extends React.Component {
+
     formRef = React.createRef();
-    render() {
+
+    submit() {
+        this.formRef.current.submit();
+    }
+
+    componentDidMount() {
+        this.props.onRef(this);
+    }
+
+    render(props) {
         return (
-            <Form {...formItemLayout} ref={this.formRef}>
+            <Form {...formItemLayout} ref={this.formRef} onFinish={this.props.onFinish} initialValues={this.props.initVal}>
                 <Form.Item
                     label="Book ID"
                     name="book_id"
                     rules={[
                         {
-                            type: 'number',
-                            required: true
+                            type: 'string',
+                            required: true,
+                            transform: (value) => { if (value) return "" + value },
+                            pattern: /^[0-9]+$/
                         }
                     ]}
                 >
-                    <Input />
+                    <Input disabled={this.props.isUpdate} />
                 </Form.Item>
 
                 <Form.Item
@@ -132,7 +161,9 @@ class AddBookForm extends React.Component {
                     name="price"
                     rules={[
                         {
-                            type: 'number'
+                            type: 'string',
+                            transform: (value) => { if (value) return "" + value },
+                            pattern: /^[0-9]+(.[0-9]+)?$/
                         }
                     ]}
                 >
@@ -144,7 +175,9 @@ class AddBookForm extends React.Component {
                     name="stock"
                     rules={[
                         {
-                            type: 'number'
+                            type: 'string',
+                            transform: (value) => { if (value) return "" + value },
+                            pattern: /^[0-9]+$/
                         }
                     ]}
                 >
@@ -155,7 +188,9 @@ class AddBookForm extends React.Component {
                     name="lent"
                     rules={[
                         {
-                            type: 'number'
+                            type: 'string',
+                            transform: (value) => { if (value) return "" + value },
+                            pattern: /^[0-9]+$/
                         }
                     ]}
                 >
