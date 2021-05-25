@@ -7,6 +7,7 @@ import AddButton from './addButton';
 import SearchGroup from './searchGroup';
 import MainColumn from './mainColumn';
 import BookController from '../../controller/bookController';
+import { Info } from '../dialog';
 
 var Controller = [BookController];
 
@@ -23,6 +24,9 @@ class Manage extends React.Component {
 
     this.onRadioSelectChange = this.onRadioSelectChange.bind(this);
     this.onGetSelectRequest = this.onGetSelectRequest.bind(this);
+    this.onGetAddRequest = this.onGetAddRequest.bind(this);
+    this.onGetModifyRequest = this.onGetModifyRequest.bind(this);
+    this.onGetDeleteRequest = this.onGetDeleteRequest.bind(this);
   }
 
   UNSAFE_componentWillMount() {
@@ -47,7 +51,7 @@ class Manage extends React.Component {
   }
 
   refetchData() {
-    BookController.list().then(
+    Controller[this.state.radioSelect].list().then(
       (res) => { this.setState({ data: res }); }
     ).catch(
       (e) => { console.log(e); }
@@ -55,13 +59,34 @@ class Manage extends React.Component {
   }
 
   onGetSelectRequest(property, value) {
+    value = '\'' + value + '\'';
     if (property && value)
-      BookController.select(property, value).then(
+      Controller[this.state.radioSelect].select(property, value).then(
         (res) => { this.setState({ data: res }); }
       ).catch(
         (e) => { console.log(e); }
       );
     else this.refetchData();
+  }
+
+  onGetAddRequest() {
+
+  }
+
+  onGetModifyRequest(value) {
+
+  }
+
+  onGetDeleteRequest(value) {
+    Controller[this.state.radioSelect].delete(value).then(
+      (res) => {
+        Info({ text: res });
+        this.refetchData();
+      }
+    ).catch(
+      (e) => { console.log(e); }
+    );
+
   }
 
   render() {
@@ -71,8 +96,8 @@ class Manage extends React.Component {
         <RadioGroup isLoggedin={this.state.isLoggedin} select={this.onRadioSelectChange} />
         <br /><br />
         <SearchGroup val={this.state.radioSelect} onSelectRequest={this.onGetSelectRequest} />
-        <AddButton val={this.state.radioSelect} isLoggedin={this.state.isLoggedin} />
-        <MainColumn val={this.state.radioSelect} data={this.state.data} isLoggedin={this.state.isLoggedin} />
+        <AddButton val={this.state.radioSelect} isLoggedin={this.state.isLoggedin} onAdd={this.onGetAddRequest} />
+        <MainColumn val={this.state.radioSelect} data={this.state.data} isLoggedin={this.state.isLoggedin} onModify={this.onGetModifyRequest} onDelete={this.onGetDeleteRequest} />
       </div>
     );
   }

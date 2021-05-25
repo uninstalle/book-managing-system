@@ -18,6 +18,7 @@ class BookRequestSender {
 
     static async select(param) {
         let r = await axios.post(ServerBookURL + Request.SelectRequest, param);
+        console.log(r);
         return r.data;
     }
 

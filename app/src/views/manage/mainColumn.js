@@ -9,10 +9,10 @@ class MainColumn extends React.Component {
     render(props) {
         if (!this.props.val) return null;
         switch (this.props.val) {
-            case 1: return (<BookColumn data={this.props.data} isLoggedin={this.props.isLoggedin} />);
-            case 2: return (<LibcardColumn data={this.props.data} isLoggedin={this.props.isLoggedin} />);
-            case 3: return (<RecordColumn data={this.props.data} isLoggedin={this.props.isLoggedin} />);
-            case 4: return (<UserColumn data={this.props.data} isLoggedin={this.props.isLoggedin} />);
+            case 1: return (<BookColumn data={this.props.data} isLoggedin={this.props.isLoggedin} onModify={this.props.onModify} onDelete={this.props.onDelete} />);
+            case 2: return (<LibcardColumn data={this.props.data} isLoggedin={this.props.isLoggedin} onModify={this.props.onModify} onDelete={this.props.onDelete} />);
+            case 3: return (<RecordColumn data={this.props.data} isLoggedin={this.props.isLoggedin} onModify={this.props.onModify} onDelete={this.props.onDelete} />);
+            case 4: return (<UserColumn data={this.props.data} isLoggedin={this.props.isLoggedin} onModify={this.props.onModify} onDelete={this.props.onDelete} />);
             default: return null;
         }
     }
@@ -36,17 +36,43 @@ class BookColumn extends React.Component {
                 <Column
                     title="Action"
                     key="action"
-                    render={(text, record) => (
-                        <div>
-                            <Button type="link" disabled={!this.props.isLoggedin}>Modify</Button>
-                            <Button type="link" disabled={!this.props.isLoggedin}>Delete</Button>
-                        </div>
-                    )}
+                    render={(text, record) => {
+                        return (
+                            <div>
+                                <ModifyButton isLoggedin={this.props.isLoggedin} onModify={(data) => {
+                                    this.props.onModify(data);
+                                }} data={text} />
+                                <DeleteButton isLoggedin={this.props.isLoggedin} onDelete={(data) => {
+                                    this.props.onDelete(data["book_id"]);
+                                }} data={text} />
+
+                            </div>
+                        );
+                    }}
                 />
             </Table>
         );
     }
 }
+
+class ModifyButton extends React.Component {
+
+    render(props) {
+        return <Button type="link" disabled={!this.props.isLoggedin} onClick={(event) => {
+            this.props.onModify(this.props.data);
+        }}>Modify</Button>;
+    }
+}
+
+class DeleteButton extends React.Component {
+
+    render(props) {
+        return <Button type="link" disabled={!this.props.isLoggedin} onClick={(event) => {
+            this.props.onDelete(this.props.data);
+        }}>Delete</Button>;
+    }
+}
+
 
 class LibcardColumn extends React.Component {
     render(props) {
