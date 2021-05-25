@@ -5,7 +5,7 @@ import Login from './login/Login';
 import Logout from './logout/Logout';
 import Manage from './manage/Manage';
 import Notfound from './Notfound';
-import CheckAuthRequestSender from '../service/auth';
+import AuthChecker from '../controller/authChecker';
 import 'antd/dist/antd.css';
 import './App.css';
 import { Layout, Menu } from 'antd';
@@ -14,10 +14,27 @@ const { Header, Content } = Layout;
 
 class App extends React.Component {
 
+    constructor(props) {
+        super(props);
+
+        this.state = { isLoggedin: false };
+    }
+
+    UNSAFE_componentWillMount() {
+        AuthChecker.check().then((res) => {
+            this.setState({ isLoggedin: res })
+        }).catch(
+            () => {
+                this.setState({ isLoggedin: false });
+            }
+        );
+    }
+
+
     render() {
         return (
             <Layout className="layout">
-                <Navigator />
+                <Navigator isLoggedin={this.state.isLoggedin} />
                 <BrowserRouter>
                     <Mainpage />
                 </BrowserRouter>
@@ -28,29 +45,8 @@ class App extends React.Component {
 
 class Navigator extends React.Component {
 
-    constructor(props) {
-        super(props);
-
-        this.state = { isLoggedin: false };
-    }
-
-    UNSAFE_componentWillMount() {
-        CheckAuthRequestSender.send({}).then((res) => {
-            if (res.data.ret_code === 0) {
-                this.setState({ isLoggedin: true });
-            }
-            else {
-                this.setState({ isLoggedin: false });
-            }
-        }).catch(
-            () => {
-                this.setState({ isLoggedin: false });
-            }
-        );
-    }
-
-    render() {
-        if (this.state.isLoggedin) {
+    render(props) {
+        if (this.props.isLoggedin) {
             return ( // logged in
                 <Header>
                     <div className="Navigator-block">Welcome, admin.</div>
@@ -82,7 +78,7 @@ class Navigator extends React.Component {
 
 class Mainpage extends React.Component {
 
-    render() {
+    render(props) {
         return (
             <Content style={{ padding: '0 50px' }}>
                 <Switch>

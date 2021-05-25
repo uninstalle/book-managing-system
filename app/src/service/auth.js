@@ -1,7 +1,7 @@
 import { axios, ServerCheckAuthURL } from '../config/settings';
 
 
-class CheckAuthRequestSender {
+class AuthRequestSender {
 
     static async send(param) {
         let r = await axios.get(ServerCheckAuthURL, param);
@@ -9,4 +9,4 @@ class CheckAuthRequestSender {
     }
 };
 
-export default CheckAuthRequestSender;
+export default AuthRequestSender;

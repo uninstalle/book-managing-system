@@ -13,26 +13,26 @@ class BookRequestSender {
 
     static async list(param) {
         let r = await axios.get(ServerBookURL + Request.ListRequest, param);
-        return r;
+        return r.data;
     }
 
     static async select(param) {
         let r = await axios.post(ServerBookURL + Request.SelectRequest, param);
-        return r;
+        return r.data;
     }
 
     static async add(param) {
         let r = await axios.post(ServerBookURL + Request.AddRequest, param);
-        return r;
+        return r.data;
     }
     static async update(param) {
         let r = await axios.post(ServerBookURL + Request.UpdateRequest, param);
-        return r;
+        return r.data;
     }
     static async delete(param) {
         let r = await axios.post(ServerBookURL + Request.DeleteRequest, param);
-        return r;
+        return r.data;
     }
 };
 
-module.exports = BookRequestSender;
+export default BookRequestSender;
